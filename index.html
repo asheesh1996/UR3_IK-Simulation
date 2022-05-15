@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>New Unity Project</title>
+    <link rel="stylesheet" type="text/css" href="./styles/global.css">
+  </head>
+  <body style="text-align: center"> 
+    <canvas id="unity-canvas" style="background: url('Build/') no-repeat center center fixed"></canvas>
+    <body>
+      <div id="loader">
+        <img class="logo" src="logo.jpg">
+        <div class="spinner"></div>
+        <div class="progress"><div class="full"></div></div>
+      </div>
+    </body>
+
+    <script src="Build/WebGLBuildsGZip.loader.js"></script>
+    <script>
+      var buildUrl = "Build";
+      var config = {
+        dataUrl: buildUrl + "/WebGLBuildsGZip.data.gz",
+        frameworkUrl: buildUrl + "/WebGLBuildsGZip.framework.js.gz",
+        codeUrl: buildUrl + "/WebGLBuildsGZip.wasm.gz",
+        streamingAssetsUrl: "StreamingAssets",
+        companyName: "DefaultCompany",
+        productName: "New Unity Project",
+        productVersion: "0.1",
+      };
+
+      var gameInstance = createUnityInstance(
+        document.querySelector("#unity-canvas"),
+        config,
+        UnityProgress);
+
+      function UnityProgress(progress) {
+        var loader = document.querySelector("#loader");
+        var loaderProgress = document.querySelector("#loader .progress");
+
+        var progressBar = loader.querySelector(".full");
+        
+        loaderProgress.style.display = "block";
+        progressBar = loaderProgress.querySelector(".full");
+        loader.querySelector(".spinner").style.display = "none";
+        progressBar.style.transform = `scaleX(${progress})`;
+
+        if (progress === 1) {
+          loader.style.display = "none";
+        }
+      }
+    </script>
+  </body>
+</html>
